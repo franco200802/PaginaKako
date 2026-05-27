@@ -93,6 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="chip-label">🏛 Gastos locales</div>
                         <div class="chip-value res-loc-ars">ARS 0.00</div>
                     </div>
+                    <div class="chip chip-green">
+                        <div class="chip-label">⚖️ Peso total envío</div>
+                        <div class="chip-value res-peso-total">0 g</div>
+                    </div>
                 </div>
                 <div class="gran-total">
                     <div class="gran-total-label">💰 Costo Final Total</div>
@@ -101,6 +105,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span class="total-sep">·</span>
                         <span class="total-usd">USD 0.00</span>
                     </div>
+                </div>
+                <div class="pdf-btn-row">
+                    <button class="btn-pdf" onclick="imprimirCompra(${id})">📄 Guardar como PDF</button>
                 </div>
             </div>
         `;
@@ -176,6 +183,10 @@ document.addEventListener('DOMContentLoaded', () => {
         cartDiv.querySelector('.res-loc-ars').textContent  = formatoARS.format(totalLocalARS);
         cartDiv.querySelector('.total-ars').textContent    = formatoARS.format(granTotalARS);
         cartDiv.querySelector('.total-usd').textContent    = formatoUSD.format(granTotalUSD);
+        const pesoTexto = pesoTotal >= 1000
+            ? (pesoTotal / 1000).toFixed(2) + ' kg'
+            : pesoTotal + ' g';
+        cartDiv.querySelector('.res-peso-total').textContent = pesoTexto;
 
         // Poblar tabla de desglose
         const tbodyDesglose = cartDiv.querySelector('.tbody-desglose');
@@ -195,6 +206,13 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             tbodyDesglose.appendChild(tr);
         });
+    };
+
+    window.imprimirCompra = function(cartId) {
+        const cartDiv = document.getElementById(`tbody-${cartId}`).closest('.cart-card');
+        cartDiv.classList.add('print-target');
+        window.print();
+        cartDiv.classList.remove('print-target');
     };
 
     inputCotizacion.addEventListener('input', () => {

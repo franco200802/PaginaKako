@@ -14,6 +14,7 @@
     --chip-blue: #eff6ff;
     --chip-purple:#f5f3ff;
     --chip-orange:#fff7ed;
+    --chip-green: #f0fdf4;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -355,6 +356,7 @@ body {
 .chip-blue   { background: var(--chip-blue);   border-color: #bfdbfe; }
 .chip-purple { background: var(--chip-purple);  border-color: #ddd6fe; }
 .chip-orange { background: var(--chip-orange);  border-color: #fed7aa; }
+.chip-green  { background: var(--chip-green);   border-color: #86efac; }
 
 .chip-label {
     font-size: 11px;
@@ -437,3 +439,52 @@ body {
 /* Botón Global */
 .actions-container { text-align: center; margin-top: 20px; }
 .btn-primary { background: var(--success); color: white; border: none; padding: 15px 30px; font-size: 18px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+
+/* ── Botón PDF ─────────────────────────────── */
+.pdf-btn-row {
+    text-align: center;
+    margin-top: 20px;
+}
+.btn-pdf {
+    background: linear-gradient(135deg, #e11d48 0%, #f43f5e 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(225,29,72,.35);
+    transition: transform .15s, box-shadow .15s;
+}
+.btn-pdf:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(225,29,72,.45);
+}
+
+/* ── Estilos de impresión ──────────────────── */
+@media print {
+    body { background: white !important; color: #0f172a !important; }
+
+    /* Ocultar todo excepto la carta marcada */
+    .top-bar,
+    .actions-container,
+    .btn-delete-cart,
+    .btn-add-product,
+    .btn-delete-prod,
+    .btn-pdf,
+    .pdf-btn-row { display: none !important; }
+
+    .cart-card { display: none !important; }
+    .cart-card.print-target { display: block !important; box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
+
+    /* Forzar colores legibles */
+    .cart-card.print-target * { color: #0f172a !important; background: white !important; box-shadow: none !important; }
+    .chip { border: 1px solid #94a3b8 !important; }
+    .gran-total { border: 1px solid #94a3b8 !important; }
+    .total-ars, .total-usd { font-size: 22px !important; }
+    .desglose-table th, .desglose-table td,
+    .productos-table th, .productos-table td { border: 1px solid #cbd5e1 !important; padding: 6px !important; }
+
+    @page { margin: 20mm; }
+}
